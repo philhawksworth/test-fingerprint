@@ -1,0 +1,14 @@
+---
+title: Home
+layout: layouts/base.njk
+---
+
+
+<h1>Env vars for fingerprinting</h1>
+
+
+<ul>
+{%  for key,value in environment %}
+<li>{{ key }} : {{ value}}</li>
+{% endfor %}
+</ul>
