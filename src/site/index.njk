@@ -7,11 +7,11 @@ layout: layouts/base.njk
 <h1>Env vars for fingerprinting</h1>
 
 <code>
-  /* fingerprint={{ site.DEPLOY_ID}}   {{ site.DEPLOY_URL }}/:splat   200
+  /* fingerprint={{ site.DEPLOY_ID}}   {{ site.DEPLOY_URL }}/:splat   200!
 </code>
 
 
-<h2>THese assets have a fingerprint parameter so we can access them foreverrrrrr</h2>
+<h2>Adding a fingerprint parameter which matches a deploy ID will make that version available forever</h2>
 
 <ul>
   <li><a href="/images/cat.jpg?fingerprint={{ site.DEPLOY_ID }}">/images/cat.jpg?fingerprint={{ site.DEPLOY_ID }}</a></li>
