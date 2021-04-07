@@ -6,9 +6,6 @@ layout: layouts/base.njk
 
 <h1>Env vars for fingerprinting</h1>
 
-
-<ul>
-{%  for key,value in environment %}
-<li>{{ key }} : {{ value}}</li>
-{% endfor %}
-</ul>
+<code>
+  /* fingerprint={{ environment.DEPLOY_ID}}   {{ environment.DEPLOY_URL }}/:splat   200
+</code>
