@@ -13,6 +13,12 @@ layout: layouts/base.njk
 
 <h2>Adding a fingerprint parameter which matches a deploy ID will make that version available forever</h2>
 
+The version of the asset included in this deploy.
 <ul>
   <li><a href="/images/cat.jpg?fingerprint={{ site.DEPLOY_ID }}">/images/cat.jpg?fingerprint={{ site.DEPLOY_ID }}</a></li>
+</ul>
+
+Versions of the asset from previous deploys
+<ul>
+  <li><a href="/images/cat.jpg?fingerprint=606e0566b3ff1500080653e1">/images/cat.jpg?fingerprint=606e0566b3ff1500080653e1</a></li>
 </ul>
