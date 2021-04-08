@@ -28,11 +28,11 @@ layout: layouts/base.njk
 
 <ol>
   <li>Add a redirect rule to serve fingerprinted assets when that querystring is used</li>
-  <li>Associated version dependent assets with the current version of the site by using the deploy ID for the fingerprint parameter</li>
+  <li>Associate version dependent assets with the current build of the site by using the deploy ID for the fingerprint parameter</li>
 </ol>
 
 
-<h3>The redirect configuration added to <code>netlify.toml</code></h3>
+<h3>1. The redirect configuration added to <code>netlify.toml</code></h3>
 <pre>
   <code>
   [[redirects]]
@@ -44,7 +44,7 @@ layout: layouts/base.njk
   </code>
 </pre>
 
-<h3> Use the DEPLOY_ID value in your build</h3>
+<h3>2. Use the DEPLOY_ID value in your build</h3>
 
 <p>
   (Using whatever site generator or framework you like toi access the <code>DEPLOY_ID</code> <a href="https://docs.netlify.com/configure-builds/environment-variables/#deploy-urls-and-metadata">environment variable</a> provided by Netlify)
