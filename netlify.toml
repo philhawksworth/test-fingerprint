@@ -4,7 +4,7 @@
 
 [[redirects]]
   from = "/*"
-  query = {fingerprint = ":fingerprint"}
-  to = "https://:fingerprint--test-fingerprint.netlify.app/:splat?"
+  query = {fingerprint = ":hash"}
+  to = "https://:hash--test-fingerprint.netlify.app/:splat?"
   status = 200
   force = true

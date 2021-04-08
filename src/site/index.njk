@@ -4,21 +4,69 @@ layout: layouts/base.njk
 ---
 
 
-<h1>Placeholder vars for fingerprinting</h1>
+<h1>Example: persisting assets forever with fingerprints</h1>
+
+<h2>Use case</h2>
+<p>
+  Deploys on Netlify are <a href="https://jamstack.org/glossary/atomic">atomic</a> and <a href="https://jamstack.org/glossary/immutable">immutable</a> which has many of benefits for maintaining sites in known states and allowing very useful default caching configurations on the CDN and in browsers. But there is a use case where sites might want to have HTML which is either cached in the browser for long periods, or is left open in the browser for long periods and might reference resource which could alter on the CDN as a result of frequent deploys.
+</p>
+<p>
+  You can define your own caching behaviour on Netlify via the <a href="https://docs.netlify.com/routing/headers/"">custom headers configuration</a>, but you can also ensure that an HTML file always has access to the correct version of its dependencies for subsequent requests to the CDN even after new deploys have taken place.
+</p>
+<p>
+  A common pattern for binding a given version of an html file to specific versions of its dependencies it to add a fingerprint query parameter
+</p>
+<code>
+  /scripts/some-versioned-resource.js?fingerprint=123456789
+</code>
+
+<p>
+  Since Netlify generates a <a href="">uniquely addressable version</a> of the site for every deploy, we can use this as a way to direct requests to any version of an asset which has ever been deployed. A <a href="https://docs.netlify.com/routing/redirects/">redirect rule</a> lets us support whatever URL format we like for this perform http rewrites the CDN edge to return the desired assets version.
+</p>
+
+<h2>Method</h2>
+
+<ol>
+  <li>Add a redirect rule to serve fingerprinted assets when that querystring is used</li>
+  <li>Associated version dependent assets with the current version of the site by using the deploy ID for the fingerprint parameter</li>
+</ol>
+
+
+<h3>The redirect configuration added to <code>netlify.toml</code></h3>
+<pre>
+  <code>
+  [[redirects]]
+    from = "/*"
+    query = {fingerprint = ":hash"}
+    to = "https://:hash--test-fingerprint.netlify.app/:splat?"
+    status = 200
+    force = true
+  </code>
+</pre>
+
+<h3> Use the DEPLOY_ID value in your build</h3>
+
+<p>
+  (Using whatever site generator or framework you like toi access the <code>DEPLOY_ID</code> <a href="https://docs.netlify.com/configure-builds/environment-variables/#deploy-urls-and-metadata">environment variable</a> provided by Netlify)
+</p>
 
 <code>
-  /* fingerprint=:hash  https://:hash--test-fingerprint.netlify.app/:splat?   200!
+  {% raw %}
+  /scripts/some-versioned-resource.js?fingerprint={{ DEPLOY_ID }}
+  {% endraw %}
 </code>
 
 
-<h2>Adding a fingerprint parameter which matches a deploy ID will make that version available forever</h2>
 
-The version of the asset included in this deploy.
+<h2>Demo</h2>
+
+This is the version of an asset included in this deploy.
 <ul>
   <li><a href="/images/cat.jpg?fingerprint={{ site.DEPLOY_ID }}">/images/cat.jpg?fingerprint={{ site.DEPLOY_ID }}</a></li>
+  <li><a href="/images/cat.jpg">/images/cat.jpg</a> (Without a fingerprint parameter we get the version from this deploy as usual)</li>
 </ul>
 
-Versions of the asset from previous deploys
+Previously deployed versions of this asset are addressable via their fingerprint
 <ul>
   <li><a href="/images/cat.jpg?fingerprint=606e0566b3ff1500080653e1">/images/cat.jpg?fingerprint=606e0566b3ff1500080653e1</a></li>
 </ul>
